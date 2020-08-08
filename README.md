@@ -136,16 +136,7 @@ GET | /projects/Id | renders the page of an specific project
 GET | /projects/edit/Id | renders project profile edit page, it is only editable from an Agency/User.
 POST | /projects/edit/Id | updates a project. Redirects to /project:Id
 POST | /projects/delete/Id | delete a project. Redirects to /profile. Only an Agency/User can delete a project.
-```
-body:
-    - pic
-    - name
-    - type
-    - breed
-    - birth date
-    - age
-    - comments
-```
+
 
 ### Misc routes
 |Method|URL|Description|
