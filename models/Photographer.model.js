@@ -25,6 +25,9 @@ const photographerSchema = new Schema(
       lowercase: true,
       trim: true,
     },
+    description: {
+      type: String
+    },
     // googleID: String,
     // add password property here
     passwordHash: {
@@ -34,6 +37,12 @@ const photographerSchema = new Schema(
     projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
     portfolio: [{type: String}],
     skills: [{type: String}],
+    rating: {
+      type: Number,
+      default: 5,
+      min: 0,
+      max: 5
+    },
     verified: {
       type: Boolean
     },

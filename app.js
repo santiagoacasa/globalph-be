@@ -60,8 +60,10 @@ app.use(
 
 const index = require('./routes/index.routes');
 const authRoutes = require('./routes/auth/auth.routes');
+const crudRoutes = require('./routes/crud.routes')
 app.use('/', index);
 app.use('/auth', authRoutes);
+app.use('/search', crudRoutes);
 
 
 
