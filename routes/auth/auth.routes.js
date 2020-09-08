@@ -52,10 +52,12 @@ authRoutes.post('/signup', (req, res, next) => {
     return;
   }
 
-  if(password.length < 8){
-      res.status(400).json({ message: 'Please make your password at least 8 characters long for security purposes.' });
-      return;
+  const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+  if (!regex.test(password)) {
+    res.status(400).json({errorMessage:"The password should be at least 8 characters long and must contain lower and uppercase letters."});
+    return;
   }
+
 
   Photographer.findOne({ email }, (err, foundUser) => {
       if(err){
@@ -101,7 +103,8 @@ authRoutes.post('/signup', (req, res, next) => {
 authRoutes.post('/logout', (req, res, next) => {
   // req.logout() is defined by passport
   req.logout();
-  res.status(200).json({ message: 'Log out success!' });
+  req.session.destroy();
+  res.status(200).json({ message: 'Log out successfull!' });
 });
 
 authRoutes.get('/loggedin', (req, res, next) => {
