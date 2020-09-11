@@ -1,9 +1,10 @@
 const express = require('express');
 const crudRoutes = express.Router();
 const Photographer = require('../models/Photographer.model');
-const {
+const uploadUserPic = require('../configs/cloudinaryProfilePics.config')
+/*const {
   response
-} = require('express');
+} = require('express');*/
 
 crudRoutes.get('/photographers', (req, res, next) => {
   const searchParam = req.query.search || null
@@ -32,8 +33,9 @@ crudRoutes.get('/photographers', (req, res, next) => {
 
 crudRoutes.patch('/updateProfile', async (req, res, next) => {
   console.log(req.body)
+  const {_id: userId } = req.session.currentUser
   try {
-    updatedUser = await Photographer.findByIdAndUpdate({_id: req.body.id}, req.body, {new: true})
+    updatedUser = await Photographer.findByIdAndUpdate({_id: userId}, req.body, {new: true})
     req.session.currentUser = updatedUser
     res.status(200).json({
       message: "User successfully updated",

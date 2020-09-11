@@ -61,9 +61,11 @@ app.use(
 const index = require('./routes/index.routes');
 const authRoutes = require('./routes/auth/auth.routes');
 const crudRoutes = require('./routes/crud.routes')
+const uploadRoutes = require('./routes/file-upload.routes')
 app.use('/', index);
 app.use('/auth', authRoutes);
 app.use('/crud', crudRoutes);
+app.use('/upload', uploadRoutes)
 
 
 

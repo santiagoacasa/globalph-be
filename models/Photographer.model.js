@@ -28,8 +28,9 @@ const photographerSchema = new Schema(
     description: {
       type: String
     },
-    // googleID: String,
-    // add password property here
+    website: {
+      type: String
+    },
     passwordHash: {
       type: String,
       required: [true, "Password is required."],

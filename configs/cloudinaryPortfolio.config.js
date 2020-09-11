@@ -11,9 +11,10 @@ cloudinary.config({
 const storage = new CloudinaryStorage ({
   cloudinary: cloudinary,
   params: {
-    folder: 'globalph/profile-pics',
+    folder: 'globalph/portfolio-pics',
     format: async (req, file) => 'png',
     public_id: (req, file) => file.originalname
   }
 });
+
 module.exports = multer({storage: storage})
