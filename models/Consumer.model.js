@@ -20,8 +20,7 @@ const consumerSchema = new Schema(
       lowercase: true,
       trim: true,
     },
-    // googleID: String,
-    // add password property here
+    isPhotographer: Boolean,
     passwordHash: {
       type: String,
       required: [true, "Password is required."],

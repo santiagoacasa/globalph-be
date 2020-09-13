@@ -35,6 +35,7 @@ const photographerSchema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
+    isPhotographer: Boolean,
     projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
     portfolio: [{type: String}],
     skills: [{type: String}],

@@ -2,9 +2,7 @@ const express = require('express');
 const crudRoutes = express.Router();
 const Photographer = require('../models/Photographer.model');
 const uploadUserPic = require('../configs/cloudinaryProfilePics.config')
-/*const {
-  response
-} = require('express');*/
+
 
 crudRoutes.get('/photographers', (req, res, next) => {
   const searchParam = req.query.search || null
@@ -13,7 +11,11 @@ crudRoutes.get('/photographers', (req, res, next) => {
       .then(response => {
         return res.status(200).json(response)
       })
-      .catch(err => console.log(err))
+      .catch(error => {
+        console.log(error)
+        res.status(500).json({
+          message: "Something went wrong searching for users, please try again later."})
+      })
   } else {
     Photographer.find({
         skills: {
@@ -26,8 +28,11 @@ crudRoutes.get('/photographers', (req, res, next) => {
         console.log(response)
         res.status(200).json(response)
       })
-      .catch(err =>
-        console.log(err))
+      .catch(error => {
+        console.log(error)
+        res.status(500).json({
+          message: "Something went wrong searching for users, please try again later."})
+      })     
   }
 })
 
@@ -43,7 +48,7 @@ crudRoutes.patch('/updateProfile', async (req, res, next) => {
   } catch (error) {
     console.log(error)
     res.status(500).json({
-      message: "Something went wrong updating the user"})
+      message: "Something went wrong updating the user, please try again later."})
   }
 })
 
