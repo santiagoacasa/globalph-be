@@ -41,8 +41,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'build')));
 
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
