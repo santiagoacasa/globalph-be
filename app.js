@@ -28,6 +28,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+//CORSs
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:3001', process.env.DEPLOYEDHTTPSURL, process.env.DEPLOYEDHTTPURL] // <== aceptar llamadas desde este dominio
+  })
+);
 
 // Express View engine setup
 app.use(require('node-sass-middleware')({
@@ -38,12 +45,8 @@ app.use(require('node-sass-middleware')({
       
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'build')));
 
 
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 //require Session configuration
@@ -56,13 +59,7 @@ app.use(passport.session());
 // default value for title local
 app.locals.title = 'Global PH';
 
-//CORSs
-app.use(
-  cors({
-    credentials: true,
-    origin: [process.env.DEPLOYEDHTTPSURL, process.env.DEPLOYEDHTTPURL] // <== aceptar llamadas desde este dominio
-  })
-);
+
 
 const index = require('./routes/index.routes');
 const authRoutes = require('./routes/auth/auth.routes');
