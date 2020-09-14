@@ -8,16 +8,15 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const session       = require('express-session');
+const passport      = require('passport');
+const cors         = require('cors');
+require('./configs/passport');
 
 
-mongoose
-  .connect('mongodb://localhost/globalph-be', {useNewUrlParser: true})
-  .then(x => {
-    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
-  })
-  .catch(err => {
-    console.error('Error connecting to mongo', err)
-  });
+
+//require DB configuration
+require('./configs/db.config');
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
@@ -31,7 +30,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Express View engine setup
-
 app.use(require('node-sass-middleware')({
   src:  path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
@@ -39,20 +37,36 @@ app.use(require('node-sass-middleware')({
 }));
       
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
+//require Session configuration
+require('./configs/session.config')(app);
+//PASSPORT INITIALIZE Y SESSION
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'Global PH';
 
+//CORSs
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:3001', 'http://localhost:3000', process.env.DEPLOYEDHTTPSURL, process.env.DEPLOYEDHTTPURL] // <== aceptar llamadas desde este dominio
+  })
+);
 
-
-const index = require('./routes/index');
+const index = require('./routes/index.routes');
+const authRoutes = require('./routes/auth/auth.routes');
+const crudRoutes = require('./routes/crud.routes')
+const uploadRoutes = require('./routes/file-upload.routes')
 app.use('/', index);
+app.use('/auth', authRoutes);
+app.use('/crud', crudRoutes);
+app.use('/upload', uploadRoutes)
+
 
 
 module.exports = app;
