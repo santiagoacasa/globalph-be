@@ -38,6 +38,12 @@ app.use(require('node-sass-middleware')({
       
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'build')));
+
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 //require Session configuration
@@ -54,7 +60,7 @@ app.locals.title = 'Global PH';
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:3001', 'http://localhost:3000', process.env.DEPLOYEDHTTPSURL, process.env.DEPLOYEDHTTPURL] // <== aceptar llamadas desde este dominio
+    origin: [process.env.DEPLOYEDHTTPSURL, process.env.DEPLOYEDHTTPURL] // <== aceptar llamadas desde este dominio
   })
 );
 
