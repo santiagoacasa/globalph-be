@@ -9,28 +9,49 @@ authRoutes.post('/login', async (req, res, next) => {
   console.log('Dentro de ruta login')
   const {
     email,
-    password
+    password,
+    isPhotographer
   } = req.body
+  console.table(req.body)
   if (!email || !password) {
     res.status(400).json({ errorMessage: "Please provide an email and password" })
     return;
   }
-  try {
-    user = await Photographer.findOne({ email })
-    console.log("Se esta logueando", user)
-    if (!user) {
-      res.status(401).json({ errorMessage: "This user does not exists" })
-    } else if (bcrypt.compareSync(password, user.passwordHash)) {
-      req.session.currentUser = user;
-      console.log("Usuario guardado en sesion", req.session.currentUser)
-      res.status(200).json(req.session.currentUser)
-    } else {
-      res.status(400).json({ errorMessage: "Incorrect password" })
-      console.log("password erroneo")
-    }
+  if(isPhotographer){
+    try {
+      user = await Photographer.findOne({ email })
+      console.log("Se esta logueando", user)
+      if (!user) {
+        res.status(401).json({ errorMessage: "This user does not exists" })
+      } else if (bcrypt.compareSync(password, user.passwordHash)) {
+        req.session.currentUser = user;
+        console.log("Usuario guardado en sesion", req.session.currentUser)
+        res.status(200).json(req.session.currentUser)
+      } else {
+        res.status(400).json({ errorMessage: "Incorrect password" })
+        console.log("password erroneo")
+      }
   } catch (error) {
     next(error)
-  }
+  } 
+  }else {
+    try {
+      user = await Consumer.findOne({ email })
+      console.log("Se esta logueando", user)
+      if (!user) {
+        res.status(401).json({ errorMessage: "This user does not exists" })
+      } else if (bcrypt.compareSync(password, user.passwordHash)) {
+        req.session.currentUser = user;
+        console.log("Usuario guardado en sesion", req.session.currentUser)
+        res.status(200).json(req.session.currentUser)
+      } else {
+        res.status(400).json({ errorMessage: "Incorrect password" })
+        console.log("password erroneo")
+      }
+  } catch (error) {
+    next(error)
+  } 
+  } 
 
 });
 

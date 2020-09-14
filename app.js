@@ -54,7 +54,7 @@ app.locals.title = 'Global PH';
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:3001', 'http://localhost:3000'] // <== aceptar llamadas desde este dominio
+    origin: ['http://localhost:3001', 'http://localhost:3000', process.env.DEPLOYEDHTTPSURL, process.env.DEPLOYEDHTTPURL] // <== aceptar llamadas desde este dominio
   })
 );
 

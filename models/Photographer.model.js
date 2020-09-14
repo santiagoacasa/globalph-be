@@ -25,6 +25,11 @@ const photographerSchema = new Schema(
       lowercase: true,
       trim: true,
     },
+    phone: {
+      type: String,
+      trim: true,
+      default: "Not provided yet"
+    },
     description: {
       type: String
     },

@@ -20,7 +20,7 @@ const consumerSchema = new Schema(
       lowercase: true,
       trim: true,
     },
-    isPhotographer: Boolean,
+    isPhotographer: false,
     passwordHash: {
       type: String,
       required: [true, "Password is required."],
