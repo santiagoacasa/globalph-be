@@ -20,6 +20,11 @@ const consumerSchema = new Schema(
       lowercase: true,
       trim: true,
     },
+    phone: {
+      type: String,
+      trim: true,
+      default: "Not provided yet"
+    },
     isPhotographer: false,
     passwordHash: {
       type: String,
