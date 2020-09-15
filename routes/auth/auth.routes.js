@@ -96,7 +96,8 @@ authRoutes.post('/signup', (req, res, next) => {
         email: email,
         passwordHash: hashPass,
         firstName: firstName,
-        lastName: lastName
+        lastName: lastName,
+        isPhotographer: isPhotographer
       });
       console.log(newPhotographer)
       newPhotographer.save(err => {
