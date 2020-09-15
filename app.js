@@ -45,10 +45,13 @@ app.use(require('node-sass-middleware')({
 
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get('/**', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 //require Session configuration
 require('./configs/session.config')(app);
 //PASSPORT INITIALIZE Y SESSION
