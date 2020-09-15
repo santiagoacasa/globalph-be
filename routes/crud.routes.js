@@ -4,8 +4,10 @@ const Photographer = require('../models/Photographer.model');
 const uploadUserPic = require('../configs/cloudinaryProfilePics.config')
 
 
-crudRoutes.get('/photographers', (req, res, next) => {
-  const searchParam = req.query.search || null
+crudRoutes.post('/photographers', (req, res, next) => {
+  console.table(req.body.searchParam)
+  const {searchParam} = req.body || null
+  console.log(searchParam)
   if (searchParam === null) {
     Photographer.find()
       .then(response => {
